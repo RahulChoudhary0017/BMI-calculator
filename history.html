@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI History - BMI Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-heartbeat"></i>
+                <span>BMI Health</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="/" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/project" class="nav-link">Project</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/history-page" class="nav-link active">History</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/contact" class="nav-link">Contact</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- History Section -->
+    <section class="history" style="padding-top: 120px;">
+        <div class="container">
+            <h2 class="section-title">Calculation History</h2>
+            <div class="history-content">
+                <div class="history-controls">
+                    <button id="clearHistory" class="clear-btn">
+                        <i class="fas fa-trash"></i>
+                        Clear History
+                    </button>
+                </div>
+                <div id="historyList" class="history-list">
+                    <!-- History items will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>BMI Health</h3>
+                    <p>Your trusted partner for health monitoring and BMI calculations.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/project">Project</a></li>
+                        <li><a href="/history-page">History</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">BMI Guide</a></li>
+                        <li><a href="#">Health Tips</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 BMI Health Calculator. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // History page functionality
+        const clearHistoryBtn = document.getElementById('clearHistory');
+        const historyList = document.getElementById('historyList');
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        // Load and display history
+        async function loadHistory() {
+            try {
+                const response = await fetch('/history');
+                const history = await response.json();
+                displayHistory(history);
+            } catch (error) {
+                console.error('Error loading history:', error);
+                historyList.innerHTML = '<p style="text-align: center; color: #666;">Error loading history.</p>';
+            }
+        }
+
+        function displayHistory(history) {
+            if (history.length === 0) {
+                historyList.innerHTML = '<p style="text-align: center; color: #666; grid-column: 1 / -1;">No calculation history found.</p>';
+                return;
+            }
+            
+            historyList.innerHTML = history.map(entry => {
+                const categoryClass = getCategoryClass(entry.category);
+                return `
+                    <div class="history-item">
+                        <div class="history-info">
+                            <div class="history-bmi">${entry.bmi}</div>
+                            <div class="history-details">
+                                Weight: ${entry.weight}kg | Height: ${entry.height}cm<br>
+                                ${entry.date} at ${entry.time}
+                            </div>
+                        </div>
+                        <div class="history-category ${categoryClass}">
+                            ${entry.category}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function getCategoryClass(category) {
+            if (category === 'Underweight') return 'underweight';
+            if (category === 'Normal weight') return 'normal';
+            if (category === 'Overweight') return 'overweight';
+            if (category === 'Obese') return 'obese';
+            return 'normal';
+        }
+
+        // Clear history
+        clearHistoryBtn.addEventListener('click', async function() {
+            if (confirm('Are you sure you want to clear all calculation history?')) {
+                try {
+                    const response = await fetch('/clear-history', {
+                        method: 'POST'
+                    });
+                    if (response.ok) {
+                        loadHistory();
+                        alert('History cleared successfully!');
+                    } else {
+                        alert('Error clearing history.');
+                    }
+                } catch (error) {
+                    console.error('Error clearing history:', error);
+                    alert('Error clearing history.');
+                }
+            }
+        });
+
+        // Mobile navigation
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Load history on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadHistory();
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project - BMI Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-heartbeat"></i>
+                <span>BMI Health</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="/" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/project" class="nav-link active">Project</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/history-page" class="nav-link">History</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/contact" class="nav-link">Contact</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Project Section -->
+    <section class="project" style="padding-top: 120px;">
+        <div class="container">
+            <h2 class="section-title">Our Project</h2>
+            <div class="project-content">
+                <div class="project-info">
+                    <h3>BMI Calculator Development</h3>
+                    <p>This project was developed using Python Flask backend and modern web technologies to provide an accurate and user-friendly BMI calculation tool.</p>
+                    
+                    <div class="tech-stack">
+                        <h4>Technologies Used:</h4>
+                        <div class="tech-items">
+                            <span class="tech-item">Python Flask</span>
+                            <span class="tech-item">HTML5</span>
+                            <span class="tech-item">CSS3</span>
+                            <span class="tech-item">JavaScript</span>
+                        </div>
+                    </div>
+                    
+                    <div class="project-features">
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>Real-time BMI calculation using Python backend</li>
+                            <li>Responsive design for all devices</li>
+                            <li>BMI category classification</li>
+                            <li>History tracking with server-side storage</li>
+                            <li>Modern UI/UX design</li>
+                            <li>RESTful API endpoints</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-example">
+                        <h4>Python BMI Calculation Code:</h4>
+                        <pre><code>def calculate_bmi(weight_kg, height_cm):
+    height_m = height_cm / 100  # Convert cm to meters
+    bmi = weight_kg / (height_m ** 2)
+    return round(bmi, 2)
+
+def bmi_category(bmi):
+    if bmi < 18.5:
+        return "Underweight"
+    elif 18.5 <= bmi < 24.9:
+        return "Normal weight"
+    elif 25 <= bmi < 29.9:
+        return "Overweight"
+    else:
+        return "Obese"</code></pre>
+                    </div>
+                </div>
+                <div class="project-stats">
+                    <div class="stat-card">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Accuracy</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Availability</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">Free</div>
+                        <div class="stat-label">Cost</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>BMI Health</h3>
+                    <p>Your trusted partner for health monitoring and BMI calculations.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/project">Project</a></li>
+                        <li><a href="/history-page">History</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">BMI Guide</a></li>
+                        <li><a href="#">Health Tips</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 BMI Health Calculator. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        .code-example {
+            margin: 2rem 0;
+            background: #1f2937;
+            border-radius: 10px;
+            padding: 1.5rem;
+            overflow-x: auto;
+        }
+        
+        .code-example h4 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+        
+        .code-example pre {
+            margin: 0;
+            color: #e5e7eb;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .code-example code {
+            color: #e5e7eb;
+        }
+    </style>
+
+    <script>
+        // Mobile navigation
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+    </script>
+</body>
+</html> 
